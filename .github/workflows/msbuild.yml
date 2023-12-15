@@ -42,3 +42,13 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Compress
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: powershell Compress-Archive . build.zip
+      
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: build.zip
+        path: build.zip
